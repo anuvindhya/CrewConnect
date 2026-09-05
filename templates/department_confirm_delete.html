@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h4>
+                Delete Department
+            </h4>
+
+            <p>
+                Are you sure you want to delete
+                <strong>{{ department.name }}</strong>?
+            </p>
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    Yes, Delete
+                </button>
+
+                <a
+                    href="{% url 'department_list' %}"
+                    class="btn btn-secondary"
+                >
+                    Cancel
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h2>Departments</h2>
+
+            <p class="text-muted">
+                Manage company departments
+            </p>
+        </div>
+
+        <a
+            href="{% url 'department_create' %}"
+            class="btn btn-primary"
+        >
+            <i class="bi bi-plus-lg"></i>
+            Add Department
+        </a>
+
+    </div>
+
+
+    {% if error %}
+
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+
+    {% endif %}
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>#</th>
+                            <th>Department Name</th>
+                            <th>Actions</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for department in departments %}
+
+                        <tr>
+
+                            <td>
+                                {{ forloop.counter }}
+                            </td>
+
+                            <td>
+                                {{ department.name }}
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{% url 'department_update' department.id %}"
+                                    class="btn btn-sm btn-outline-primary"
+                                >
+                                    <i class="bi bi-pencil"></i>
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'department_delete' department.id %}"
+                                    class="btn btn-sm btn-outline-danger"
+                                >
+                                    <i class="bi bi-trash"></i>
+                                    Delete
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+
+                        <tr>
+
+                            <td
+                                colspan="3"
+                                class="text-center text-muted"
+                            >
+                                No departments found.
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

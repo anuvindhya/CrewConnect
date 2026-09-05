@@ -1,0 +1,412 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Page Header -->
+    <div class="mb-4">
+        <h1 class="fw-bold">Welcome to CrewConnect</h1>
+        <p class="text-muted">
+            HR & Employee Management System
+        </p>
+    </div>
+
+
+    <!-- Project Introduction -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-3">
+                <i class="bi bi-info-circle"></i>
+                About CrewConnect
+            </h4>
+
+            <p>
+                <strong>CrewConnect</strong> is a Django-based HR and
+                Employee Management System designed to manage employee
+                information, departments, designations and leave management.
+            </p>
+
+            <p>
+                The application has two major roles:
+                <strong>HR</strong> and <strong>Employee</strong>.
+            </p>
+
+        </div>
+    </div>
+
+
+    <!-- Technology Stack -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-3">
+                <i class="bi bi-stack"></i>
+                Technology Stack
+            </h4>
+
+            <div class="row g-3">
+
+                <!-- Backend -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3">
+                        <strong>Backend</strong>
+                        <p class="text-muted mb-0">
+                            Python, Django
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Database -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3">
+                        <strong>Database</strong>
+                        <p class="text-muted mb-0">
+                            SQLite
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Frontend -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3">
+                        <strong>Frontend</strong>
+                        <p class="text-muted mb-0">
+                            HTML, CSS, Bootstrap, JavaScript
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ORM -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3">
+                        <strong>ORM</strong>
+                        <p class="text-muted mb-0">
+                            Django ORM
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Authentication -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3">
+                        <strong>Authentication</strong>
+                        <p class="text-muted mb-0">
+                            Django Authentication
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-4">
+                    <div class="border rounded p-3">
+                        <strong>Email</strong>
+                        <p class="text-muted mb-0">
+                            SMTP
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Roles -->
+    <div class="row g-4 mb-4">
+
+        <!-- HR -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-3">
+                        <i class="bi bi-person-badge"></i>
+                        HR
+                    </h4>
+
+                    <ul class="mb-0">
+
+                        <li>Manage Employees</li>
+
+                        <li>Manage Departments</li>
+
+                        <li>Manage Designations</li>
+
+                        <li>Approve / Reject Leave Requests</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Employee -->
+        <div class="col-md-6">
+
+            <div class="card shadow-sm border-0 h-100">
+
+                <div class="card-body">
+
+                    <h4 class="fw-bold mb-3">
+                        <i class="bi bi-person"></i>
+                        Employee
+                    </h4>
+
+                    <ul class="mb-0">
+
+                        <li>View My Profile</li>
+
+                        <li>Apply for Leave</li>
+
+                        <li>View My Leaves</li>
+
+                        <li>View Leave Calendar</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Authentication Flow -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-3">
+                <i class="bi bi-shield-lock"></i>
+                Authentication & Employee Onboarding
+            </h4>
+
+            <div class="row text-center">
+
+                <div class="col-md-2">
+                    <div class="p-3 border rounded">
+                        <strong>1</strong>
+                        <p class="mb-0">HR Creates Employee</p>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="p-3 border rounded">
+                        <strong>2</strong>
+                        <p class="mb-0">Create Django User</p>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="p-3 border rounded">
+                        <strong>3</strong>
+                        <p class="mb-0">Password Disabled</p>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="p-3 border rounded">
+                        <strong>4</strong>
+                        <p class="mb-0">Email Setup Link</p>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="p-3 border rounded">
+                        <strong>5</strong>
+                        <p class="mb-0">Employee Creates Password</p>
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="p-3 border rounded">
+                        <strong>6</strong>
+                        <p class="mb-0">Employee Login</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Application Modules -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-4">
+                <i class="bi bi-grid"></i>
+                Application Modules
+            </h4>
+
+            <div class="row g-3">
+
+                <!-- Employee Management -->
+                <div class="col-md-4">
+
+                    <div class="border rounded p-3 text-center">
+
+                        <i class="bi bi-people fs-2"></i>
+
+                        <h6 class="mt-2">
+                            Employee Management
+                        </h6>
+
+                        <small class="text-muted">
+                            Add, View, Update and Delete
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Leave Management -->
+                <div class="col-md-4">
+
+                    <div class="border rounded p-3 text-center">
+
+                        <i class="bi bi-calendar-check fs-2"></i>
+
+                        <h6 class="mt-2">
+                            Leave Management
+                        </h6>
+
+                        <small class="text-muted">
+                            Apply and Track Leaves
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Employee Profile -->
+                <div class="col-md-4">
+
+                    <div class="border rounded p-3 text-center">
+
+                        <i class="bi bi-person-circle fs-2"></i>
+
+                        <h6 class="mt-2">
+                            Employee Profile
+                        </h6>
+
+                        <small class="text-muted">
+                            View and Update Profile
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Leave Workflow -->
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-4">
+                <i class="bi bi-calendar3"></i>
+                Leave Workflow
+            </h4>
+
+            <div class="d-flex justify-content-between align-items-center text-center">
+
+                <div>
+                    <i class="bi bi-person fs-2"></i>
+                    <p>Employee</p>
+                </div>
+
+                <i class="bi bi-arrow-right fs-3"></i>
+
+                <div>
+                    <i class="bi bi-send fs-2"></i>
+                    <p>Apply Leave</p>
+                </div>
+
+                <i class="bi bi-arrow-right fs-3"></i>
+
+                <div>
+                    <i class="bi bi-hourglass-split fs-2"></i>
+                    <p>Pending</p>
+                </div>
+
+                <i class="bi bi-arrow-right fs-3"></i>
+
+                <div>
+                    <i class="bi bi-person-check fs-2"></i>
+                    <p>HR Approval</p>
+                </div>
+
+                <i class="bi bi-arrow-right fs-3"></i>
+
+                <div>
+                    <i class="bi bi-check-circle fs-2"></i>
+                    <p>Approved / Rejected</p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- Complete Project Flow -->
+    <div class="card shadow-sm border-0">
+
+        <div class="card-body">
+
+            <h4 class="fw-bold mb-4">
+                <i class="bi bi-diagram-3"></i>
+                Complete Project Flow
+            </h4>
+
+            <div class="text-center">
+
+                <h5>Employee Onboarding</h5>
+
+                <i class="bi bi-arrow-down fs-3"></i>
+
+                <h5>Authentication</h5>
+
+                <i class="bi bi-arrow-down fs-3"></i>
+
+                <h5>Employee Management</h5>
+
+                <i class="bi bi-arrow-down fs-3"></i>
+
+                <h5>Leave Management</h5>
+
+                <i class="bi bi-arrow-down fs-3"></i>
+
+                <h5>Leave Approval</h5>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}

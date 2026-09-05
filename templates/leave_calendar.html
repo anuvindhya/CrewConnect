@@ -1,0 +1,707 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Leave Calendar</h2>
+
+            <p class="text-muted">
+                View and manage employee leaves
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- CALENDAR CARD -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+
+            <!-- MONTH NAVIGATION -->
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    onclick="previousMonth()"
+                >
+
+                    <i class="bi bi-chevron-left"></i>
+
+                    Previous
+
+                </button>
+
+
+                <h4
+                    id="monthYear"
+                    class="mb-0"
+                >
+                </h4>
+
+
+                <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    onclick="nextMonth()"
+                >
+
+                    Next
+
+                    <i class="bi bi-chevron-right"></i>
+
+                </button>
+
+            </div>
+
+
+            <!-- WEEKDAYS -->
+
+            <div class="row g-0 text-center fw-bold bg-light border">
+
+                <div class="col p-3">
+                    Sunday
+                </div>
+
+                <div class="col p-3">
+                    Monday
+                </div>
+
+                <div class="col p-3">
+                    Tuesday
+                </div>
+
+                <div class="col p-3">
+                    Wednesday
+                </div>
+
+                <div class="col p-3">
+                    Thursday
+                </div>
+
+                <div class="col p-3">
+                    Friday
+                </div>
+
+                <div class="col p-3">
+                    Saturday
+                </div>
+
+            </div>
+
+
+            <!-- CALENDAR DAYS -->
+
+            <div
+                id="calendar"
+                class="row g-0 border-start border-top"
+            >
+            </div>
+
+
+            <!-- FILTER BUTTONS -->
+
+            <div class="mt-4">
+
+                <h6>
+                    Filter Leave Status
+                </h6>
+
+
+                <button
+                    type="button"
+                    class="btn btn-warning btn-sm me-2"
+                    onclick="filterLeaves('Pending')"
+                >
+                    Pending
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-success btn-sm me-2"
+                    onclick="filterLeaves('Approved')"
+                >
+                    Approved
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-danger btn-sm me-2"
+                    onclick="filterLeaves('Rejected')"
+                >
+                    Rejected
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    onclick="filterLeaves('All')"
+                >
+                    All
+                </button>
+
+            </div>
+
+
+            <!-- CSRF TOKEN -->
+
+            <form
+                id="csrf-form"
+                style="display:none;"
+            >
+
+                {% csrf_token %}
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   LEAVE DATA
+===================================================== */
+
+const leaves = [
+
+    {% for leave in leaves %}
+
+    {
+        id: {{ leave.id }},
+
+        employeeName:
+            "{{ leave.employee.name|default:'Employee'|escapejs }}",
+
+        leaveType:
+            "{{ leave.get_leave_type_display|escapejs }}",
+
+        startDate:
+            "{{ leave.start_date|date:'Y-m-d' }}",
+
+        endDate:
+            "{{ leave.end_date|date:'Y-m-d' }}",
+
+        reason:
+            "{{ leave.reason|escapejs }}",
+
+        status:
+            "{{ leave.status|escapejs }}",
+
+        actionUrl:
+            "{% url 'leave_action' leave.id %}"
+    },
+
+    {% endfor %}
+
+];
+
+
+/* =====================================================
+   CURRENT DATE
+===================================================== */
+
+let currentDate = new Date();
+
+
+/* =====================================================
+   CURRENT FILTER
+===================================================== */
+
+let selectedFilter = "All";
+
+
+/* =====================================================
+   MONTH NAMES
+===================================================== */
+
+const monthNames = [
+
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+
+];
+
+
+/* =====================================================
+   FILTER LEAVES
+===================================================== */
+
+function filterLeaves(status) {
+
+    selectedFilter = status;
+
+    renderCalendar();
+
+}
+
+
+/* =====================================================
+   RENDER CALENDAR
+===================================================== */
+
+function renderCalendar() {
+
+    const calendar =
+        document.getElementById("calendar");
+
+
+    const monthYear =
+        document.getElementById("monthYear");
+
+
+    calendar.innerHTML = "";
+
+
+    const year =
+        currentDate.getFullYear();
+
+
+    const month =
+        currentDate.getMonth();
+
+
+    monthYear.innerText =
+        monthNames[month] + " " + year;
+
+
+    /* First day */
+
+    const firstDay =
+        new Date(
+            year,
+            month,
+            1
+        ).getDay();
+
+
+    /* Days in month */
+
+    const daysInMonth =
+        new Date(
+            year,
+            month + 1,
+            0
+        ).getDate();
+
+
+    /* =================================================
+       EMPTY CELLS
+    ================================================= */
+
+    for (
+        let i = 0;
+        i < firstDay;
+        i++
+    ) {
+
+        const emptyDay =
+            document.createElement("div");
+
+
+        emptyDay.className =
+            "col calendar-day empty";
+
+
+        calendar.appendChild(
+            emptyDay
+        );
+
+    }
+
+
+    /* =================================================
+       CREATE DAYS
+    ================================================= */
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+
+        const dayElement =
+            document.createElement("div");
+
+
+        dayElement.className =
+            "col calendar-day";
+
+
+        /* Day number */
+
+        const dayNumber =
+            document.createElement("div");
+
+
+        dayNumber.className =
+            "day-number";
+
+
+        dayNumber.innerText =
+            day;
+
+
+        dayElement.appendChild(
+            dayNumber
+        );
+
+
+        /* Current calendar date */
+
+        const currentDay =
+            new Date(
+                year,
+                month,
+                day
+            );
+
+
+        /* =================================================
+           CHECK LEAVES
+        ================================================= */
+
+        leaves.forEach(
+            function(leave) {
+
+
+                /* Status filter */
+
+                if (
+
+                    selectedFilter !== "All" &&
+
+                    leave.status.toLowerCase() !==
+                    selectedFilter.toLowerCase()
+
+                ) {
+
+                    return;
+
+                }
+
+
+                /* Leave start */
+
+                const startDate =
+                    new Date(
+                        leave.startDate +
+                        "T00:00:00"
+                    );
+
+
+                /* Leave end */
+
+                const endDate =
+                    new Date(
+                        leave.endDate +
+                        "T23:59:59"
+                    );
+
+
+                /* Check whether leave covers this day */
+
+                if (
+
+                    currentDay >= startDate &&
+
+                    currentDay <= endDate
+
+                ) {
+
+
+                    /* =================================
+                       LEAVE BOX
+                    ================================= */
+
+                    const leaveElement =
+                        document.createElement("div");
+
+
+                    leaveElement.classList.add(
+                        "leave-event"
+                    );
+
+
+                    const status =
+                        leave.status.toLowerCase();
+
+
+                    /* Status class */
+
+                    if (
+                        status === "approved"
+                    ) {
+
+                        leaveElement.classList.add(
+                            "leave-approved"
+                        );
+
+                    }
+
+                    else if (
+                        status === "rejected"
+                    ) {
+
+                        leaveElement.classList.add(
+                            "leave-rejected"
+                        );
+
+                    }
+
+                    else {
+
+                        leaveElement.classList.add(
+                            "leave-pending"
+                        );
+
+                    }
+
+
+                    /* Leave information */
+
+                    leaveElement.innerHTML = `
+
+                        <strong>
+                            ${leave.employeeName}
+                        </strong>
+
+                        <br>
+
+                        ${leave.leaveType}
+
+                        <br>
+
+                        <small>
+                            ${leave.status}
+                        </small>
+
+                    `;
+
+
+                    /* Tooltip */
+
+                    leaveElement.title =
+
+                        "Employee: " +
+                        leave.employeeName +
+
+                        "\nLeave Type: " +
+                        leave.leaveType +
+
+                        "\nStatus: " +
+                        leave.status +
+
+                        "\nReason: " +
+                        leave.reason;
+
+
+                    dayElement.appendChild(
+                        leaveElement
+                    );
+
+
+                    /* =================================
+                       APPROVE / REJECT BUTTONS
+                    ================================= */
+
+                    if (
+                        status === "pending"
+                    ) {
+
+
+                        const buttonContainer =
+                            document.createElement("div");
+
+
+                        buttonContainer.className =
+                            "mt-2";
+
+
+                        /* =================================
+                           APPROVE FORM
+                        ================================= */
+
+                        const approveForm =
+                            document.createElement("form");
+
+
+                        approveForm.method =
+                            "POST";
+
+
+                        approveForm.action =
+                            leave.actionUrl;
+
+
+                        approveForm.className =
+                            "d-inline";
+
+
+                        const csrfToken =
+                            document.querySelector(
+                                "[name=csrfmiddlewaretoken]"
+                            ).value;
+
+
+                        approveForm.innerHTML = `
+
+                            <input
+                                type="hidden"
+                                name="csrfmiddlewaretoken"
+                                value="${csrfToken}"
+                            >
+
+                            <button
+                                type="submit"
+                                name="action"
+                                value="approve"
+                                class="btn btn-success btn-sm"
+                            >
+                                Approve
+                            </button>
+
+                        `;
+
+
+                        /* =================================
+                           REJECT FORM
+                        ================================= */
+
+                        const rejectForm =
+                            document.createElement("form");
+
+
+                        rejectForm.method =
+                            "POST";
+
+
+                        rejectForm.action =
+                            leave.actionUrl;
+
+
+                        rejectForm.className =
+                            "d-inline ms-1";
+
+
+                        rejectForm.innerHTML = `
+
+                            <input
+                                type="hidden"
+                                name="csrfmiddlewaretoken"
+                                value="${csrfToken}"
+                            >
+
+                            <button
+                                type="submit"
+                                name="action"
+                                value="reject"
+                                class="btn btn-danger btn-sm"
+                            >
+                                Reject
+                            </button>
+
+                        `;
+
+
+                        buttonContainer.appendChild(
+                            approveForm
+                        );
+
+
+                        buttonContainer.appendChild(
+                            rejectForm
+                        );
+
+
+                        dayElement.appendChild(
+                            buttonContainer
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        calendar.appendChild(
+            dayElement
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PREVIOUS MONTH
+===================================================== */
+
+function previousMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() - 1
+    );
+
+    renderCalendar();
+
+}
+
+
+/* =====================================================
+   NEXT MONTH
+===================================================== */
+
+function nextMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() + 1
+    );
+
+    renderCalendar();
+
+}
+
+
+/* =====================================================
+   LOAD CALENDAR
+===================================================== */
+
+renderCalendar();
+
+</script>
+
+
+{% endblock %}

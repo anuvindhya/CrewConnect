@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Update Profile</h2>
+
+            <p class="text-muted">
+                Update your personal information
+            </p>
+
+        </div>
+
+
+        <a
+            href="{% url 'settings' %}"
+            class="btn btn-secondary"
+        >
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Settings
+
+        </a>
+
+    </div>
+
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <form
+                method="POST"
+                action="{% url 'update_profile' %}"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- FIRST NAME -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        First Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="first_name"
+                        class="form-control"
+                        value="{{ request.user.first_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- LAST NAME -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Last Name
+                    </label>
+
+                    <input
+                        type="text"
+                        name="last_name"
+                        class="form-control"
+                        value="{{ request.user.last_name }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        value="{{ request.user.email }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- USERNAME -->
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ request.user.username }}"
+                        readonly
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+
+                    <i class="bi bi-check-circle"></i>
+
+                    Save Changes
+
+                </button>
+
+
+                <a
+                    href="{% url 'settings' %}"
+                    class="btn btn-secondary ms-2"
+                >
+
+                    Cancel
+
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}>

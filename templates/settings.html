@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+
+            <h2>Settings</h2>
+
+            <p class="text-muted">
+                Manage your account settings
+            </p>
+
+        </div>
+
+    </div>
+
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-{{ message.tags }}">
+
+                {{ message }}
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- PROFILE -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+
+                <i class="bi bi-person"></i>
+
+                Profile Settings
+
+            </h5>
+
+            <p class="text-muted">
+                Update your personal information.
+            </p>
+
+            <a
+                href="{% url 'update_profile' %}"
+                class="btn btn-primary"
+            >
+
+                <i class="bi bi-pencil"></i>
+
+                Update Profile
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- PASSWORD -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+
+                <i class="bi bi-lock"></i>
+
+                Password
+
+            </h5>
+
+            <p class="text-muted">
+                Change your account password.
+            </p>
+
+            <a
+                href="{% url 'change_password' %}"
+                class="btn btn-warning"
+            >
+
+                <i class="bi bi-key"></i>
+
+                Change Password
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACCOUNT -->
+
+    <div class="card shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+
+                <i class="bi bi-person-badge"></i>
+
+                Account Information
+
+            </h5>
+
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ request.user.username }}"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="col-md-6 mb-3">
+
+                    <label class="form-label">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        class="form-control"
+                        value="{{ request.user.email }}"
+                        readonly
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <div class="card shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </h5>
+
+            <p class="text-muted">
+                Sign out from your account.
+            </p>
+
+            <a
+                href="{% url 'logout' %}"
+                class="btn btn-danger"
+            >
+
+                <i class="bi bi-box-arrow-right"></i>
+
+                Logout
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
